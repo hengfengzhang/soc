@@ -8,18 +8,18 @@
 module top (
 	input		clk,	//to: ['test_temp']; 
 	input		rst_n,	//to: ['test_temp', 'test_temp_1']; 
-	input	[31:0] 	data_in,	//to: ['test_temp', 'test_temp_1']; 
-	output		done,	//from: ['test_temp', 'test_temp_1']; 
 	output	[31:0] 	data_out 	//from: ['test_temp_1']; 
 );
 
+wire	[31:0] 	data_in 	//to: ['test_temp_1']; from: ['test_temp']; 
+wire		done 	//to: ['test_temp']; from: ['test_temp_1']; 
 
 //instance module of test_temp
 test_temp u_test_temp (
 	.clk	(clk),	 //input 
 	.rst_n	(rst_n),	 //input 
-	.data_in	(data_in),	 //input [31:0] 
-	.done	(done)	// output 
+	.data_in	(data_in),	 //output [31:0] 
+	.done	(done)	// input 
 );
 
 //instance module of test_temp_1
