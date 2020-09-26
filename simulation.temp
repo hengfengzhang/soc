@@ -1,0 +1,41 @@
+
+
+//Generate clock at 1GHz
+initial begin
+    clk = 0;
+    forever #0.5 clk = ~clk;
+end
+
+//Generate rst_n at 50ns
+initial begin
+    rst_n = 0;
+    #50;
+    rst_n = 1;
+end
+
+//Generate basic event
+reg [31:0] tst_cnt;
+always @(posedge clk or negedge rst_n)
+  if(!rst_n)
+    tst_cnt <= 32'h0;
+  else if(tst_cnt==32'hffffffff)
+    tst_cnt <= 32'h0;
+  else
+    tst_cnt <= tst_cnt + 32'h1;
+
+wire tst_event;
+assign tst_event = (tst_cnt==32'hff);
+
+wire tst_end;
+assign tst_end = (tst_cnt==32'hffff);
+
+//Generate fsdb waveform for debug
+initial begin
+  $display("###########SIM HAVE START##############");
+  $fsdbDumpfile("tb_top.fsdb");
+  $fsdbDumpvars(0,tb_top,"+mda");
+  $wait(tst_end);
+  $display("###########SIM HAVE DONE##############");
+  $finish;
+end
+
