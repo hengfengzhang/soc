@@ -1,8 +1,8 @@
 module test_temp #(parameter aa=1) (
   input clk, //input clk
   input rst_n,
-  input [31:0] data_in,
-  output done
+  output [31:0] data_in,
+  input done
 );
 
 wire test;
