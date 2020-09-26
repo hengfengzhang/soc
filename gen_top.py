@@ -50,7 +50,7 @@ with open(inst_path, 'a') as instance_group:
 
             # regex match module name
             regex_module = re.compile(r'(module)(\s+)(\w+)(\s+)')
-            module_obj = re.findall(regex_module, content);
+            module_obj = re.findall(regex_module, content)
             if len(module_obj) == 0:
                 print('Error: Cannot find any module')
             if len(module_obj) > 1:
@@ -60,7 +60,7 @@ with open(inst_path, 'a') as instance_group:
                 print('Info: Found module, ', module_name)
 
             # regex match ports name
-            regex_ports = re.compile(r'(input|output|inout)(\s+)(reg|wire)?(\s+)?(\[.*:.*\]\s+)?(\w+)');
+            regex_ports = re.compile(r'(input|output|inout)(\s+)(reg|wire)?(\s+)?(\[.*:.*\]\s+)?(\w+)')
             groups_ports = re.findall(regex_ports, content)
             print('Info: Found ports, ', len(groups_ports))
 
