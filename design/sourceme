@@ -1,0 +1,4 @@
+#set workspace path
+CDR=`pwd`
+SOC_WS=${CDR%/design*}
+export SOC_WS
