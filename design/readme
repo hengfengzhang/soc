@@ -1,0 +1,25 @@
+#This is a design directory for virtual virtual soc project.
+#The directory structure is here, based on this directory, scripts can be used fastly.
+________________________________________________________________________________________
+design
+ -> |sourceme
+ -> |mem
+ -> |common
+ -> |acpu_ss
+ -> |ddr_ss
+ -> |mmc_ss
+ -> |-> |vlogifle.f
+ -> |-> |vlogifle_v.f
+ -> |-> |mmc_ss_stub.v
+  -> |doc
+ -> |-> | sc_reg.xls
+ -> |-> |rtl
+ -> |-> |-> | a.v
+ -> |-> |-> | b.v
+ -> |-> |scr
+ -> |-> |-> | Makefile
+ -> |-> |-> | flatf.py
+ -> |-> |-> | gen_wrap.py
+ -> |-> |-> | gen_reg.py
+ -> |-> |-> | flatf.py
+ ________________________________________________________________________________________
