@@ -38,13 +38,13 @@ def match_port(string, port_active):
   port_type = ''     #input/output/inout
   port_is   = False
   if port_active:
-    if re.search(r'output.*;', string):
+    if re.search(r'output\s?.*[,;]?', string):
       port_type = 'output'
       port_is   = True
-    elif re.search(r'input.*;', string):
+    elif re.search(r'input\s?.*[,;]?', string):
       port_type = 'input'
       port_is   = True
-    elif re.search(r'inout.*;', string):
+    elif re.search(r'inout\s?.*[,;]?', string):
       port_type = 'inout'
       port_is   = True
     else:
@@ -53,10 +53,13 @@ def match_port(string, port_active):
   else:
     port_type = None
     port_is   = False
+  if port_is:
+    print( port_is, port_type)
   return port_is, port_type
 
 def get_port_attri(string, port_type):
   string     = re.sub(r';', '', string)
+  string     = re.sub(r',', '', string)
   string     = re.sub(r'\]', '] ', string)
   string     = re.sub(r'\[', ' [', string)
   port_dict  = {}
@@ -133,7 +136,7 @@ def find_module_port(cur_design, cur_dir):
           port_active = True
           print('INFO: module begin -> '+module_name+'\n')
         elif match_module_end(line, port_active):
-          port_active = True
+          port_active = False
           print('INFO: module end   -> '+module_name+'\n')
         port_is, port_type = match_port(line, port_active)
         if port_is:
