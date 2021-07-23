@@ -1,5 +1,6 @@
 #This is a design directory for virtual virtual soc project.
 #The directory structure is here, based on this directory, scripts can be used fastly.
+#The directory is used for soc system/subsyste/ip/module designer to setup development environment fastly.
 ________________________________________________________________________________________
 design
  -> |sourceme
@@ -19,8 +20,30 @@ design
  -> |-> |scr
  -> |-> |-> | Makefile
  -> |-> |-> | gen_stub.py
- -> |-> |-> | gen_wrap.py
  -> |-> |-> | gen_tb.py
+ -> |-> |-> | gen_wrap.py
  -> |-> |-> | gen_reg.py
  -> |-> |-> | flatf.py
  ________________________________________________________________________________________
+Makefile:
+主要用于组织代码的产生，编译，综合，验证，质量检查。
+gen_stub.py:
+主要用于生成SOC子系统/IP/模块的stub文件。
+生成文件主要提供给上层集成人员进行早期集成，或者在项目流程中通过filelist的控制选择性的stub该模块；
+生成文件与原始文件的差异主要在于：
+1. 生成文件名与原始文件名不同；
+2. 生成文件仅包括端口信号，不实例化任何子模块；
+3. 生成文件的输入端口被tie成0，包含rdy或者ready的输入端口被tie成1，避免接口异常；
+gen_tb.py:
+主要用于生成SOC子系统/IP/模块的的testbench文件；
+生成文件实例化输入设计与连线声明，通用时钟复位产生逻辑，fsdb产生逻辑；
+gen_wrap.py
+主要用于生成输入模块的wrap，或者实例化多个输入模块，多个模块的同名且异类型接口会连接，否则被连至wrap端口。
+gen_reg.py
+主要用于根据excel表单的寄存器信息生成apb接口的寄存器设计文件和寄存器模型。（TBD）
+flatf.py
+主要用于根据输入filelist输出展开后的filelist：
+1. 替换filelist中设计文件路径的宏定义；
+2. 根据filelist中的宏选择展开的filelist分支；
+3. 递归filelist中的filelist进行展开并检查；
+4. 检查生成的filelist中的路径是否存在；
