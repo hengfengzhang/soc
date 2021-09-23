@@ -13,7 +13,7 @@ def get_parse():
   parser.add_argument('-f', '--file'  , metavar='vlogfile.f', nargs='+', default='../vlogfile.f', help='input filelist'    )
   parser.add_argument('-d', '--define', metavar='FPGA      ', nargs='+', default='ASIC'         , help='input define macro')
   parser.add_argument('-o', '--output', metavar='filelist.f', nargs='+', default='./filelist.f' , help='output filelist'   )
-  parser.add_argument('-m', '--macro' , metavar='${SOC_WS} ', nargs='+', default='SOC_WS'       , help='macro path define' )
+  parser.add_argument('-m', '--macro' , metavar='${WORKAERA_SOCA}', nargs='+', default='WORKAREA_SOCA'  , help='macro path define' )
   args = parser.parse_args()
   print(str(args))
   return args.file, args.define, args.output, args.macro
@@ -116,8 +116,14 @@ def find_design_file(file_path, macro_sts, macro_stk, file_out):
         elif  match_dpath(line) or match_vpath(line) or match_ypath(line) or match_incdir(line) :
           if check_path(line) and (line not in file_out):
             file_out.append(line.strip(' '))
+          elif check_path(line) and (line in file_out):
+            path = line.replace(r'+incdir+', '')
+            path = path.split()[-1]
+            #print('INFO: This file have been parsed (' + str(macro_sts) + ') -> ' + path)
           else:
-            print('ERROR: Cannot find this file in path ' + str(macro_sts) + ' -> ' + line)
+            path = line.replace(r'+incdir+', '')
+            path = path.split()[-1]
+            print('ERROR: Cannot find this file in path (' + str(macro_sts) + ') -> ' + path)
         elif match_libext(line):
             file_out.append(line.strip(' '))
         else:
@@ -135,12 +141,13 @@ if __name__ == '__main__':
   macro_sts  = True
   file_list  = []
   input_list = []
-  replace_macro_list = []
+  replace_macro_list = ['${SOC_WS}', '${WORKAERA_SOCA}','$SOC_WS', '$WORKAERA_SOCA']
   directory  = os.getcwd()
   input_list, macro_list, out_file, macro_replace = get_parse()
   macro_path = os.getenv(str(macro_replace))
-  replace_macro_list.append('${'+macro_replace+'}')
-  output_filelist_path  = directory + '/' + out_file
+  replace_macro_list.append('${'+str(macro_replace)+'}')
+  replace_macro_list.append('$'+str(macro_replace))
+  output_filelist_path  = directory + '/' + str(out_file)
 
   if os.path.exists(output_filelist_path):
     os.remove(output_filelist_path)
