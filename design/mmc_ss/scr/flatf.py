@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #hengfengzhang
 #20210721
+#all right reserved
 
 import os
 import sys
