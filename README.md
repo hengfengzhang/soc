@@ -1,2 +1,5 @@
-# soc_scripts
-soc integration script and integration smoke script
+#SOC Project
+##Subsystem Project
+###IP Project
+####Design Directory
+#####Scripts
